@@ -1,25 +1,25 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseNotFound
-from .models import Movie
+from .models import WatchList
 from django.shortcuts import get_object_or_404
 from django.core import serializers
 
 
 # Create your views here.
-def movie_list(request):
-    movies = Movie.objects.all()
-    return JsonResponse(list(movies.values()), safe=False)
+def watchlist_list(request):
+    watchlists = WatchList.objects.all()
+    return JsonResponse(list(watchlists.values()), safe=False)
 
-def movie_details(request, pk):
+def watchlist_details(request, pk):
     try:
-        movie = get_object_or_404(Movie, pk=pk)
-        movie_dict = {
-            'name': movie.name,
-            'description': movie.description,
-            'active': movie.active
+        watchlist = get_object_or_404(WatchList, pk=pk)
+        watchlist_dict = {
+            'name': WatchList.name,
+            'description': WatchList.storyline,
+            'active': WatchList.active
         }
-        return JsonResponse(movie_dict)
-    except Movie.DoesNotExist:
+        return JsonResponse(watchlist_dict)
+    except WatchList.DoesNotExist:
         return HttpResponseNotFound
 
 
