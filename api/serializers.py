@@ -1,25 +1,38 @@
 from logging import exception
 from wsgiref.validate import validator
 from rest_framework import serializers
-from djJson.models import WatchList, StreamPlatform
+from djJson.models import WatchList, StreamPlatform, Review
 from rest_framework import validators
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
 
 
 class WatchListSerializer(serializers.ModelSerializer):
     name_length = serializers.SerializerMethodField()
+    reviews = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
         model = WatchList
-        fields = ['name', 'name_length', 'storyline', 'active', 'created', 'platform']
+        fields = ['name', 'name_length', 'storyline', 'active', 'created', 'platform', 'reviews']
         # exclude = ['active']
 
     def get_name_length(self, obj):
         return len(obj.name)
 
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
-    # adding s for plural is necessary, wont work w/o it
+class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
+    # the field should have the same name of the related_name in the models.py
     watchlists = WatchListSerializer(many=True, read_only=True)
+
+    # renders the watchlist string method instead of the whole object
+    # watchlists = serializers.StringRelatedField(many=True)
+    # renders the watchlist's id
+    # watchlists = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # watchlists = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='watchlist-detail')
 
     class Meta:
         model = StreamPlatform
