@@ -14,9 +14,23 @@ from djJson.models import WatchList, StreamPlatform, Review
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 
 
-class ReviewList(generics.ListAPIView):
+class ReviewCreateByWatchlist(generics.CreateAPIView):
+
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        watchlist = WatchList.objects.get(pk=pk)
+        serializer.save(watchlist=watchlist)
+
+
+class ReviewListByWatchlist(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
 
     # def get(self, request, *args, **kwargs):
     #     return self.list(request, *args, **kwargs)
@@ -24,12 +38,14 @@ class ReviewList(generics.ListAPIView):
     # def post(self, request, *args, **kwargs):
     #     return self.create(request, *args, **kwargs)
 
+
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     # def get(self, request, *args, **kwargs):
     #     return self.retrieve(request, *args, **kwargs)
+
 
 class StreamPlatformListAV(APIView):
 
@@ -44,6 +60,7 @@ class StreamPlatformListAV(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class StreamPlatformDetailAV(APIView):
 
@@ -90,6 +107,7 @@ class WatchListListAV(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
+
     
 class WatchListDetailAV(APIView):
     
