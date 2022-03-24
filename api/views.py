@@ -9,10 +9,12 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # app imports
 from djJson.models import WatchList, StreamPlatform, Review
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
+from .permissions import ReviewUserOrReadOnly, AdminOrReadOnly
 
 
 class ReviewCreateByWatchlist(generics.CreateAPIView):
@@ -48,6 +50,7 @@ class ReviewListByWatchlist(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [ReviewUserOrReadOnly]
 
     # def get(self, request, *args, **kwargs):
     #     return self.retrieve(request, *args, **kwargs)
