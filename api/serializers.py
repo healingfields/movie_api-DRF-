@@ -20,7 +20,7 @@ class WatchListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WatchList
-        fields = ['name', 'name_length', 'storyline', 'active', 'created', 'platform', 'reviews']
+        fields = ['name', 'name_length', 'storyline', 'active', 'created', 'platform', 'reviews', 'avg_rating', 'nbr_reviews']
         # exclude = ['active']
 
     def get_name_length(self, obj):
