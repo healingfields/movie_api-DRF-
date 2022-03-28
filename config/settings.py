@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'djJson',
     'api',
     'rest_framework.authtoken',
+    'user_app',
 ]
 
 MIDDLEWARE = [
