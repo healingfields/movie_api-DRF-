@@ -14,12 +14,13 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 # app imports
 from djJson.models import WatchList, StreamPlatform, Review
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
-from .permissions import ReviewUserOrReadOnly, AdminOrReadOnly
+from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 
 
 class ReviewCreateByWatchlist(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
@@ -42,6 +43,7 @@ class ReviewCreateByWatchlist(generics.CreateAPIView):
 
 class ReviewListByWatchlist(generics.ListAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -57,13 +59,14 @@ class ReviewListByWatchlist(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticated, ReviewUserOrReadOnly]
+    permission_classes = [IsAuthenticated, IsReviewUserOrReadOnly]
 
     # def get(self, request, *args, **kwargs):
     #     return self.retrieve(request, *args, **kwargs)
 
 
 class StreamPlatformListAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         platforms = StreamPlatform.objects.all()
@@ -79,6 +82,7 @@ class StreamPlatformListAV(APIView):
 
 
 class StreamPlatformDetailAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, pk):
         try:
@@ -111,6 +115,7 @@ class StreamPlatformDetailAV(APIView):
 
 
 class WatchListListAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         watchlists = WatchList.objects.all()
@@ -126,6 +131,7 @@ class WatchListListAV(APIView):
 
 
 class WatchListDetailAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, pk):
         try:
