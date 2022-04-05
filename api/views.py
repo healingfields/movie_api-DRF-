@@ -170,11 +170,19 @@ class WatchListDetailAV(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class UserReview(generics.ListAPIView):
+class UserReviewByUsername(generics.ListAPIView):
     serializer_class = ReviewSerializer
 
     def get_queryset(self):
         username = self.kwargs['username']
+        return Review.objects.filter(user__username=username)
+
+
+class UserReviewByQuery(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        username = self.request.query_params.get('username', None)
         return Review.objects.filter(user__username=username)
 
 # @api_view(['GET', 'POST'])
