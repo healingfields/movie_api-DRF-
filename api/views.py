@@ -17,6 +17,7 @@ from djJson.models import WatchList, StreamPlatform, Review
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 from .throttling import ReviewListThrottle, ReviewCreateThrottle
+from django_filters.rest_framework import  DjangoFilterBackend
 
 
 class ReviewCreateByWatchlist(generics.CreateAPIView):
@@ -180,10 +181,15 @@ class UserReviewByUsername(generics.ListAPIView):
 
 class UserReviewByQuery(generics.ListAPIView):
     serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user__username', 'active']
 
-    def get_queryset(self):
-        username = self.request.query_params.get('username', None)
-        return Review.objects.filter(user__username=username)
+    # def get_queryset(self):
+    #     username = self.request.query_params.get('username', None)
+    #     return Review.objects.filter(user__username=username)
+
+
 
 # @api_view(['GET', 'POST'])
 # def WatchList_list(request):
