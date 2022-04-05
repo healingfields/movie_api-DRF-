@@ -169,9 +169,16 @@ class WatchListDetailAV(APIView):
         except WatchList.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return Review.objects.filter(user__username=username)
+
 # @api_view(['GET', 'POST'])
 # def WatchList_list(request):
-#     if request.method == 'POST':
 #         serializer = WatchListSerializer(data = request.data)
 #         if serializer.is_valid():
 #             serializer.save()
