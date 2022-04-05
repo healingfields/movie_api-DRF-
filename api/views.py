@@ -11,6 +11,7 @@ from rest_framework import mixins
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.throttling import UserRateThrottle, ScopedRateThrottle
+from rest_framework import filters
 
 # app imports
 from djJson.models import WatchList, StreamPlatform, Review
@@ -188,6 +189,12 @@ class UserReviewByQuery(generics.ListAPIView):
     # def get_queryset(self):
     #     username = self.request.query_params.get('username', None)
     #     return Review.objects.filter(user__username=username)
+
+class MoviesBySearch(generics.ListAPIView):
+    serializer_class = WatchListSerializer
+    queryset = WatchList.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['platform__name', 'name']
 
 
 
