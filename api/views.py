@@ -194,7 +194,6 @@ class MoviesBySearch(generics.ListAPIView):
     serializer_class = WatchListSerializer
     queryset = WatchList.objects.all()
     filter_backends = [filters.SearchFilter]
-    search_fields = ['platform__name', 'name']
 
 
 
