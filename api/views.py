@@ -19,7 +19,7 @@ from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSe
 from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 from .throttling import ReviewListThrottle, ReviewCreateThrottle
 from django_filters.rest_framework import  DjangoFilterBackend
-from .pagination import WatchlistPagination
+from .pagination import WatchlistPagination, moviesLOPagination
 
 
 class ReviewCreateByWatchlist(generics.CreateAPIView):
@@ -195,6 +195,7 @@ class MoviesBySearch(generics.ListAPIView):
     serializer_class = WatchListSerializer
     queryset = WatchList.objects.all()
     filter_backends = [filters.SearchFilter]
+    pagination_class = moviesLOPagination
 
 
 class WatchList(generics.ListAPIView):
