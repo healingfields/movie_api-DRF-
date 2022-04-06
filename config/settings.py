@@ -152,8 +152,9 @@ REST_FRAMEWORK = {
         'review-create': '1/day',
         'review-list': '3/day',
         'platform-list': '2/day'
-    }
-
+    },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 2,
 }
 
 SIMPLE_JWT = {
