@@ -196,6 +196,13 @@ class MoviesBySearch(generics.ListAPIView):
     filter_backends = [filters.SearchFilter]
 
 
+class WatchList(generics.ListAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    # permission_classes = [IsAuthenticated]
+
+
+
 
 # @api_view(['GET', 'POST'])
 # def WatchList_list(request):
