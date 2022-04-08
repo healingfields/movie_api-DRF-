@@ -24,7 +24,7 @@ def register_view(request):
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
             }
-            return Response(data)
+            return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
 
 @api_view(['POST'])
