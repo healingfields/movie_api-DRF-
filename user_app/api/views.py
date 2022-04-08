@@ -17,17 +17,18 @@ def register_view(request):
             account = serializer.save()
             data['username'] = account.username
             data['email'] = account.email
-            # token = Token.objects.get(user=account).key
-            # data['token'] = token
-            refresh = RefreshToken.for_user(account)
-            data['token'] = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }
+            token = Token.objects.get(user=account).key
+            data['token'] = token
+            # refresh = RefreshToken.for_user(account)
+            # data['token'] = {
+            #     'refresh': str(refresh),
+            #     'access': str(refresh.access_token),
+            # }
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def logout_view(request):
     if request.method == 'POST':
         request.user.auth_token.delete()
