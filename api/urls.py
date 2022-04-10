@@ -6,7 +6,7 @@ from .views import WatchListListAV, StreamPlatformListAV, WatchListDetailAV, Str
 urlpatterns = [
     # path('movies/', movie_list),
     # path('movies/<int:pk>/', movie_details),
-    path('watchlists/', WatchList.as_view()),
+    path('watchlists/', WatchListListAV.as_view(), name="watchlist-list"),
     path('watchlists/<int:pk>/', WatchListDetailAV.as_view(), name='watchlist-detail'),
     path('platforms/', StreamPlatformListAV.as_view(), name='platforms-list'),
     path('platforms/<int:pk>/', StreamPlatformDetailAV.as_view(), name='streamplatform-detail'),

@@ -14,11 +14,11 @@ from rest_framework.throttling import UserRateThrottle, ScopedRateThrottle
 from rest_framework import filters
 
 # app imports
-from djJson.models import WatchList, StreamPlatform, Review
+from djJson.models import Review, WatchList, User, StreamPlatform
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 from .throttling import ReviewListThrottle, ReviewCreateThrottle
-from django_filters.rest_framework import  DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend
 from .pagination import WatchlistPagination, MoviesLOPagination, MoviesCursorPagination
 
 
@@ -199,12 +199,12 @@ class MoviesBySearch(generics.ListAPIView):
 
 
 
-class WatchList(generics.ListAPIView):
-    queryset = WatchList.objects.all()
-    serializer_class = WatchListSerializer
-    # permission_classes = [IsAuthenticated]
-    # pagination_class = WatchlistPagination
-    pagination_class = MoviesCursorPagination
+# class WatchList(generics.ListAPIView):
+#     queryset = WatchList.objects.all()
+#     serializer_class = WatchListSerializer
+#     # permission_classes = [IsAuthenticated]
+#     # pagination_class = WatchlistPagination
+#     pagination_class = MoviesCursorPagination
 
 
 # @api_view(['GET', 'POST'])
