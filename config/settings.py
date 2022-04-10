@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'djJson',
     'api',
-    'rest_framework.authtoken',
     'user_app',
     'django_filters'
 
@@ -132,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REST_FRAMEWORK = {
 
-# }
+# }TokenAuthentication
 REST_FRAMEWORK = {
    #   'DEFAULT_PERMISSION_CLASSES':[
    #      'rest_framework.permissions.IsAuthenticated',
@@ -160,7 +159,7 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 2,
 }
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-}
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+# }

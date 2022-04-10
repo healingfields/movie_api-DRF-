@@ -75,8 +75,8 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class StreamPlatformListAV(APIView):
     permission_classes = [IsAdminOrReadOnly]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'platform-list'
+    # throttle_classes = [ScopedRateThrottle]
+    # throttle_scope = 'platform-list'
 
     def get(self, request):
         platforms = StreamPlatform.objects.all()
